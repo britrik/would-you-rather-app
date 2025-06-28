@@ -1,0 +1,155 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // DOM Element References
+    const questionTextEl = document.getElementById('question-text');
+    const optionABtn = document.getElementById('option-a-btn');
+    const optionBBtn = document.getElementById('option-b-btn');
+    const optionsContainer = document.getElementById('options-container');
+    const resultsContainer = document.getElementById('results-container');
+    const resultsTextEl = document.getElementById('results-text');
+    const nextBtn = document.getElementById('next-btn');
+    const shareBtn = document.getElementById('share-btn');
+
+    // State
+    let questions = [];
+    let currentQuestion = {};
+    let usedQuestionIndices = new Set();
+
+    /**
+     * Parses a raw question string into an object with option_a and option_b.
+     * This version is more robust and handles cases where "or" appears inside an option
+     * by splitting on the last occurrence of " or ".
+     */
+    function parseQuestion(questionString) {
+        // Remove the prefix and the trailing question mark for easier parsing
+        const coreQuestion = questionString
+            .replace(/^Would you rather /i, '')
+            .slice(0, -1);
+
+        // Find the index of the last " or " to robustly separate the two main options
+        const splitIndex = coreQuestion.lastIndexOf(' or ');
+
+        // If " or " is not found, or is at the very beginning/end, the question is malformed.
+        if (splitIndex <= 0 || splitIndex >= coreQuestion.length - 4) {
+            console.warn('Could not parse question:', questionString);
+            return null;
+        }
+
+        const optionA = coreQuestion.substring(0, splitIndex).trim();
+        const optionB = coreQuestion.substring(splitIndex + 4).trim(); // +4 for the length of " or "
+
+        // A final check to make sure we got two non-empty options
+        if (optionA && optionB) {
+            return {
+                option_a: optionA,
+                option_b: optionB
+            };
+        }
+
+        console.warn('Failed to extract two valid options from:', questionString);
+        return null;
+    }
+
+
+    // Fetch questions from the JSON file and parse them
+    async function loadQuestions() {
+        try {
+            const response = await fetch('would_you_rather_gemini2.5pro.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const rawQuestions = await response.json();
+            
+            // Parse the array of strings into an array of objects
+            questions = rawQuestions
+                .map(q => parseQuestion(q))
+                .filter(q => q !== null); // Filter out any that failed to parse
+
+            if (questions.length === 0) {
+                 throw new Error('No valid questions were loaded.');
+            }
+
+            displayRandomQuestion();
+        } catch (error) {
+            questionTextEl.textContent = 'Failed to load questions. Please try refreshing the page.';
+            console.error('Error loading questions:', error);
+        }
+    }
+
+    // Get a random question that hasn't been used yet
+    function getRandomQuestion() {
+        if (usedQuestionIndices.size >= questions.length) {
+            // Reset if all questions have been shown
+            console.log('All questions shown! Resetting...');
+            usedQuestionIndices.clear();
+        }
+
+        let randomIndex;
+        do {
+            randomIndex = Math.floor(Math.random() * questions.length);
+        } while (usedQuestionIndices.has(randomIndex));
+        
+        usedQuestionIndices.add(randomIndex);
+        return questions[randomIndex];
+    }
+
+    // Display a new question and reset UI
+    function displayRandomQuestion() {
+        currentQuestion = getRandomQuestion();
+        if (!currentQuestion) return;
+
+        questionTextEl.textContent = "Would you rather...";
+        optionABtn.textContent = currentQuestion.option_a;
+        optionBBtn.textContent = currentQuestion.option_b;
+
+        // Reset UI state
+        optionsContainer.classList.remove('hidden');
+        resultsContainer.classList.add('hidden');
+        nextBtn.disabled = true;
+        shareBtn.disabled = false;
+    }
+    
+    // Handle user's choice
+    function handleOptionClick() {
+        // Generate a random vote split
+        const percentA = Math.floor(Math.random() * 81) + 10; // Random number between 10 and 90
+        const percentB = 100 - percentA;
+
+        resultsTextEl.innerHTML = `<strong>${percentA}%</strong> chose "${currentQuestion.option_a}"<br><strong>${percentB}%</strong> chose "${currentQuestion.option_b}"`;
+
+        // Update UI
+        optionsContainer.classList.add('hidden');
+        resultsContainer.classList.remove('hidden');
+        nextBtn.disabled = false;
+        nextBtn.focus(); // Make it easy to press Enter for the next question
+    }
+
+    // Handle sharing the current question
+    async function shareQuestion() {
+        const shareText = `Would you rather "${currentQuestion.option_a}" or "${currentQuestion.option_b}"? \n\nAnswer this and more at: ${window.location.href}`;
+        try {
+            await navigator.clipboard.writeText(shareText);
+            
+            // Provide user feedback
+            const originalText = shareBtn.textContent;
+            shareBtn.textContent = 'Copied!';
+            shareBtn.style.backgroundColor = '#4caf50'; // Green feedback
+            setTimeout(() => {
+                shareBtn.textContent = originalText;
+                shareBtn.style.backgroundColor = ''; // Revert color
+            }, 2000);
+
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+            alert('Could not copy to clipboard. Please share manually.');
+        }
+    }
+
+    // Event Listeners
+    optionABtn.addEventListener('click', handleOptionClick);
+    optionBBtn.addEventListener('click', handleOptionClick);
+    nextBtn.addEventListener('click', displayRandomQuestion);
+    shareBtn.addEventListener('click', shareQuestion);
+
+    // Initial Load
+    loadQuestions();
+});
