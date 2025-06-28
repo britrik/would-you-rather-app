@@ -14,14 +14,60 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentQuestion = {};
     let usedQuestionIndices = new Set();
 
-    // Fetch questions from the JSON file
+    /**
+     * Parses a raw question string into an object with option_a and option_b.
+     * This version is more robust and handles cases where "or" appears inside an option
+     * by splitting on the last occurrence of " or ".
+     */
+    function parseQuestion(questionString) {
+        // Remove the prefix and the trailing question mark for easier parsing
+        const coreQuestion = questionString
+            .replace(/^Would you rather /i, '')
+            .slice(0, -1);
+
+        // Find the index of the last " or " to robustly separate the two main options
+        const splitIndex = coreQuestion.lastIndexOf(' or ');
+
+        // If " or " is not found, or is at the very beginning/end, the question is malformed.
+        if (splitIndex <= 0 || splitIndex >= coreQuestion.length - 4) {
+            console.warn('Could not parse question:', questionString);
+            return null;
+        }
+
+        const optionA = coreQuestion.substring(0, splitIndex).trim();
+        const optionB = coreQuestion.substring(splitIndex + 4).trim(); // +4 for the length of " or "
+
+        // A final check to make sure we got two non-empty options
+        if (optionA && optionB) {
+            return {
+                option_a: optionA,
+                option_b: optionB
+            };
+        }
+
+        console.warn('Failed to extract two valid options from:', questionString);
+        return null;
+    }
+
+
+    // Fetch questions from the JSON file and parse them
     async function loadQuestions() {
         try {
             const response = await fetch('would_you_rather_gemini2.5pro.json');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            questions = await response.json();
+            const rawQuestions = await response.json();
+            
+            // Parse the array of strings into an array of objects
+            questions = rawQuestions
+                .map(q => parseQuestion(q))
+                .filter(q => q !== null); // Filter out any that failed to parse
+
+            if (questions.length === 0) {
+                 throw new Error('No valid questions were loaded.');
+            }
+
             displayRandomQuestion();
         } catch (error) {
             questionTextEl.textContent = 'Failed to load questions. Please try refreshing the page.';
@@ -33,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function getRandomQuestion() {
         if (usedQuestionIndices.size >= questions.length) {
             // Reset if all questions have been shown
+            console.log('All questions shown! Resetting...');
             usedQuestionIndices.clear();
         }
 
@@ -58,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         optionsContainer.classList.remove('hidden');
         resultsContainer.classList.add('hidden');
         nextBtn.disabled = true;
-        shareBtn.disabled = false; // Enable share button with new question
+        shareBtn.disabled = false;
     }
     
     // Handle user's choice
@@ -67,12 +114,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const percentA = Math.floor(Math.random() * 81) + 10; // Random number between 10 and 90
         const percentB = 100 - percentA;
 
-        resultsTextEl.textContent = `${percentA}% chose Option A, while ${percentB}% chose Option B!`;
+        resultsTextEl.innerHTML = `<strong>${percentA}%</strong> chose "${currentQuestion.option_a}"<br><strong>${percentB}%</strong> chose "${currentQuestion.option_b}"`;
 
         // Update UI
         optionsContainer.classList.add('hidden');
         resultsContainer.classList.remove('hidden');
         nextBtn.disabled = false;
+        nextBtn.focus(); // Make it easy to press Enter for the next question
     }
 
     // Handle sharing the current question
@@ -84,8 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Provide user feedback
             const originalText = shareBtn.textContent;
             shareBtn.textContent = 'Copied!';
+            shareBtn.style.backgroundColor = '#4caf50'; // Green feedback
             setTimeout(() => {
                 shareBtn.textContent = originalText;
+                shareBtn.style.backgroundColor = ''; // Revert color
             }, 2000);
 
         } catch (err) {
