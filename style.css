@@ -65,10 +65,12 @@ header h1 {
     font-size: 1.5rem;
     font-weight: 600;
     line-height: 1.4;
-    min-height: 100px; /* Prevents layout shift */
+    min-height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 0;    /* Add or ensure this line */
+    margin-bottom: 1.5em;  /* Space before the options */
 }
 
 /* ---- Options ---- */
@@ -169,13 +171,13 @@ header h1 {
 
 .app-tagline {
     margin-top: 0.05em;
-    font-size: 1.08em;        /* Subtle, professional size */
-    color: #b6c2de;           /* Slightly deeper, more readable blue */
+    margin-bottom: 2.5em;  /* NEW: creates extra space below tagline */
+    font-size: 1.08em;
+    color: #b6c2de;
     text-align: center;
     font-weight: 400;
     letter-spacing: 0.01em;
 }
-
 @media (max-width: 480px) {
     header h1 {
         font-size: 1.15em;    /* Compact for small screens */
