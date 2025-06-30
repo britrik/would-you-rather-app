@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1528631369245825"
+        crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Would You Rather?</title>
+    <title>Would You Rather? | VibingFun</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,17 +14,17 @@
 <body>
 
     <div class="ad-banner top-ad">
-        <!-- Top Banner Ad (e.g., 728x90) -->
-        <p>Top Ad Banner</p>
+        <!-- Top Banner Ad (Google AdSense or placeholder) -->
     </div>
 
     <div class="app-container">
         <header>
-            <h1>Would You Rather...</h1>
+            <h1>Decide Faster, Procrastinate Less!</h1>
+            <div class="app-tagline">Your Daily Decision Workout</div>
         </header>
         
         <main id="game-area">
-            <div id="question-container">
+            <div id="question-container" aria-live="polite">
                 <p class="question-text" id="question-text">Loading question...</p>
             </div>
 
@@ -32,7 +34,11 @@
                 <button id="option-b-btn" class="option-btn"></button>
             </div>
 
-            <div id="results-container" class="results-container hidden">
+            <div class="disclaimer" style="margin-bottom: 0.7em; color: #b6c2de; font-size: 0.93em; text-align: center;">
+                For entertainment purposes only – no advice.
+            </div>
+
+            <div id="results-container" class="results-container hidden" aria-live="polite">
                 <p id="results-text"></p>
             </div>
             
@@ -43,12 +49,30 @@
         </main>
     </div>
 
-    <div class="ad-banner bottom-ad">
-        <!-- Bottom Banner Ad (e.g., 728x90 or 300x250) -->
-        <p>Bottom Ad Banner</p>
+    <!-- Subtle intro for AdSense/content compliance, below app -->
+    <div class="site-intro">
+        <p>
+            VibingFun is your daily decision workout—endless “Would You Rather?” questions to help you procrastinate less and have more fun. Learn how it works or explore our question collection below.
+        </p>
     </div>
 
-    <!-- This line connects the HTML to the JavaScript file. It is supposed to be here. -->
+    <footer class="site-footer">
+        <nav>
+            <a href="about.html">About</a> |
+            <a href="fun-questions.html">Fun Questions</a> |
+            <a href="privacy.html">Privacy Policy</a> |
+            <a href="https://support.google.com/adsense/answer/48182" target="_blank" rel="noopener">AdSense Program Policies</a>
+        </nav>
+        <div style="margin-top: 0.5em; font-size: 0.93em; color: #b6c2de;">
+            VibingFun™ &copy; 2025. All rights reserved.
+        </div>
+    </footer>
+
+    <div class="ad-banner bottom-ad">
+        <!-- Bottom Banner Ad (Google AdSense or placeholder) -->
+    </div>
+
+    <!-- Link to main JavaScript logic -->
     <script src="script.js"></script>
 </body>
 </html>

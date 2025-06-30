@@ -77,6 +77,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Get a random question that hasn't been used yet
     function getRandomQuestion() {
+        if (questions.length === 0) {
+            console.warn("No questions available to choose from.");
+            questionTextEl.textContent = 'No questions available.';
+            if(optionABtn) optionABtn.disabled = true;
+            if(optionBBtn) optionBBtn.disabled = true;
+            if(nextBtn) nextBtn.disabled = true;
+            if(shareBtn) shareBtn.disabled = true;
+            return null;
+        }
+
         if (usedQuestionIndices.size >= questions.length) {
             // Reset if all questions have been shown
             console.log('All questions shown! Resetting...');
@@ -84,18 +94,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let randomIndex;
+        // Ensure questions array is not empty before entering loop to prevent infinite loop
+        if (questions.length === 0) { // This check is redundant if the top check is solid, but good for safety
+             console.error("Attempted to get random question from empty list after initial checks.");
+             return null;
+        }
         do {
             randomIndex = Math.floor(Math.random() * questions.length);
-        } while (usedQuestionIndices.has(randomIndex));
-        
-        usedQuestionIndices.add(randomIndex);
-        return questions[randomIndex];
+        } while (usedQuestionIndices.has(randomIndex) && usedQuestionIndices.size < questions.length);
+        // The condition usedQuestionIndices.size < questions.length in do...while is important
+        // to prevent infinite loop if all questions are used and somehow the reset logic fails or is bypassed.
+
+        if (usedQuestionIndices.size < questions.length) { // Only add if we found a new question
+            usedQuestionIndices.add(randomIndex);
+            return questions[randomIndex];
+        } else { // Should ideally be caught by the reset logic, but as a fallback
+            console.warn("Could not find an unused question, though all should have been reset.");
+            // Attempt to recover by clearing and picking one, or return null
+            usedQuestionIndices.clear();
+            if (questions.length > 0) {
+                randomIndex = Math.floor(Math.random() * questions.length);
+                usedQuestionIndices.add(randomIndex);
+                return questions[randomIndex];
+            }
+            return null;
+        }
     }
 
     // Display a new question and reset UI
     function displayRandomQuestion() {
         currentQuestion = getRandomQuestion();
-        if (!currentQuestion) return;
+        if (!currentQuestion) {
+            // If getRandomQuestion returned null (no questions available),
+            // ensure UI reflects this and stop further processing.
+            questionTextEl.textContent = 'No more questions or error in loading.';
+            optionsContainer.classList.add('hidden');
+            resultsContainer.classList.add('hidden');
+            if(nextBtn) nextBtn.disabled = true;
+            if(shareBtn) shareBtn.disabled = true; // Also disable share if no question
+            return;
+        }
 
         questionTextEl.textContent = "Would you rather...";
         optionABtn.textContent = currentQuestion.option_a;
