@@ -225,6 +225,37 @@ header h1 {
         font-size: 0.95em;
     }
     .app-container {
+        /* ---- Sub-page Tweaks for Consistent Layout ---- */
+.app-container h2 {
+    font-size: 1.35em;
+    color: var(--text-light);
+    margin-bottom: 1em;
+    margin-top: 0.5em;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.app-container p {
+    font-size: 1.08em;
+    color: #dcdcdc;
+    margin-bottom: 1.2em;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.app-container {
+    margin-top: 2.3em;  /* Adds a bit more space from the ad/banner on subpages */
+    margin-bottom: 2em;
+}
+
+@media (max-width: 480px) {
+    .app-container h2 {
+        font-size: 1em;
+    }
+    .app-container p {
+        font-size: 0.97em;
+    }
+}
         padding: 1.1rem 0.6rem;
     }
 }
