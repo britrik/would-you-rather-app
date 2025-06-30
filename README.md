@@ -29,6 +29,8 @@ VibingFun is a mobile-first, ad-supported web app designed to help you break the
 - AdSense-compliant: ≤3 ad units per view, required legal and info pages
 - Please see [`ADSENSE-COMPLIANCE.md`](ADSENSE-COMPLIANCE.md) for ongoing policy checklist
 
+> **Licensing note:** Code may appear under the MIT licence for contribution purposes, but content, data, branding, and all monetisation rights are governed by [`CONTENT_LICENSE.md`](CONTENT_LICENSE.md).
+
 ## Licensing & Monetisation
 
 All code and content © Britrik.  
