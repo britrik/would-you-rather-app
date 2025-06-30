@@ -1,5 +1,7 @@
 # CONTENT LICENSE – VibingFun
 
+> Note: This file supersedes any standard licence (such as MIT) included in this repository for all content, question banks, and branding. Code may be used under MIT, but content and monetisation remain exclusively owned by Britrik.
+
 All code, design, question packs, and site content are © Britrik.
 
 This repository is provided for transparency, educational use, and personal inspiration only.  
