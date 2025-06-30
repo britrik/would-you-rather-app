@@ -35,7 +35,7 @@ VibingFun is a mobile-first, ad-supported web app designed to help you break the
 
 All code and content © Britrik.  
 This project is shared for transparency and fun — **commercial redistribution or profit-sharing by others is not permitted**.  
-**Monetisation rights (including all ad revenue) are reserved exclusively by Britrik.**
+Monetisation rights (including all ad revenue) are reserved exclusively by Britrik.
 
 ## Contributing
 
