@@ -1,220 +1,245 @@
-/* ---- Basic Setup & Theming ---- */
-:root {
-    --bg-color: #1a1a2e;
-    --container-color: #16213e;
-    --primary-color: #0f3460;
-    --secondary-color: #e94560;
-    --text-color: #dcdcdc;
-    --text-light: #ffffff;
-    --border-color: #0f3460;
-}
-
-* {
-    box-sizing: border-box;
+/* Basic Reset & Typography */
+body, html {
+    height: 100%;
     margin: 0;
-    padding: 0;
-}
-
-body {
     font-family: 'Poppins', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    background-color: #1a1a2e; /* Dark blue-purple background */
+    color: #e0e0e0; /* Light grey text */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 100vh;
-    padding: 1rem;
+    justify-content: space-between; /* Pushes footer down */
 }
 
-/* ---- Ad Placeholders ---- */
+/* Ad Banner Styling */
 .ad-banner {
     width: 100%;
-    max-width: 728px;
-    height: 90px;
-    background-color: var(--container-color);
-    border: 2px dashed var(--primary-color);
+    min-height: 50px; /* Placeholder height */
+    background-color: #0f0f1a; /* Darker shade for ad background */
     display: flex;
-    justify-content: center;
     align-items: center;
-    color: var(--text-color);
-    font-style: italic;
-    opacity: 0.5;
+    justify-content: center;
+    color: #4a4a68; /* Muted text color */
+    font-size: 0.8em;
 }
 
-/* ---- Main App Container ---- */
+/* App Container */
 .app-container {
-    background-color: var(--container-color);
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    padding: 1.5rem 2rem;
-    width: 100%;
     max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #162447; /* Slightly lighter blue */
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     text-align: center;
-    border: 1px solid var(--border-color);
-    margin: 1rem 0;
+    flex-grow: 1; /* Allows container to take up available space */
 }
 
 header h1 {
-    color: var(--text-light);
-    font-weight: 700;
-    margin-bottom: 1.5rem;
+    color: #fca311; /* Bright orange for main heading */
+    margin-bottom: 5px;
+    font-size: 2.2em;
+}
+
+.app-tagline {
+    font-size: 1.1em;
+    color: #b6c2de; /* Lighter blue-grey */
+    margin-bottom: 25px;
+}
+
+/* Question & Options Styling */
+#question-container {
+    margin-bottom: 20px;
+    min-height: 60px; /* Ensures space for question text */
 }
 
 .question-text {
-    font-size: 1.5rem;
+    font-size: 1.6em;
+    color: #e0e0e0;
+}
+
+.options-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.option-btn {
+    flex-basis: 45%; /* Each button takes up 45% of the container */
+    padding: 15px;
+    font-size: 1.1em;
     font-weight: 600;
-    line-height: 1.4;
-    min-height: 100px; /* Prevents layout shift */
+    border: 2px solid #1f4068; /* Blue border */
+    border-radius: 8px;
+    background-color: #1b3a6b; /* Darker blue */
+    color: #e0e0e0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 70px; /* Consistent button height */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* ---- Options ---- */
-.options-container {
-    margin: 2rem 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+.option-btn:hover {
+    background-color: #1f4068;
+    border-color: #fca311;
+}
+
+.option-btn.selected {
+    background-color: #e43f5a; /* Reddish color for selected */
+    border-color: #e43f5a;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.option-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
 .or-divider {
-    font-weight: 700;
-    color: var(--secondary-color);
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #fca311;
+    margin: 0 10px;
 }
 
-.option-btn {
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    border: 2px solid transparent;
-    border-radius: 10px;
-    padding: 1rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    width: 100%;
-}
-
-.option-btn:hover {
-    background-color: #e94560; /* Use secondary color on hover */
-    transform: translateY(-3px);
-}
-
-/* ---- Results ---- */
-.results-container {
-    background-color: rgba(0,0,0,0.2);
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin: 2rem 0;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--text-light);
-}
-
-/* ---- Controls ---- */
+/* Controls & Results Styling */
 .controls-container {
-    margin-top: 1.5rem;
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
+    margin-top: 20px;
 }
 
 .control-btn {
-    background-color: var(--secondary-color);
-    color: var(--text-light);
-    border: none;
+    padding: 12px 25px;
+    margin: 0 10px;
     border-radius: 8px;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
+    border: none;
+    font-size: 1em;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s, opacity 0.3s;
+    transition: background-color 0.3s;
 }
 
-.control-btn:disabled {
+#next-btn {
+    background-color: #fca311; /* Orange */
+    color: #1a1a2e;
+}
+
+#next-btn:disabled {
     background-color: #555;
     cursor: not-allowed;
-    opacity: 0.6;
 }
 
-.control-btn:not(:disabled):hover {
-    background-color: #c43a51;
+#share-btn {
+    background-color: #1b3a6b;
+    color: #e0e0e0;
+    border: 1px solid #fca311;
 }
 
-/* ---- Utility ---- */
+#results-container {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
 .hidden {
     display: none;
 }
 
-/* ---- Media Queries for Larger Screens ---- */
-@media (min-width: 640px) {
-    .options-container {
-        flex-direction: row;
-        align-items: center;
-    }
-    .or-divider {
-        margin: 0 1rem;
-    }
-}
-header h1 {
-    font-size: 2em;
-    font-weight: 700;
+/* Site Intro & Footer */
+.site-intro {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
     text-align: center;
-    margin-bottom: 0.2em;
-    letter-spacing: 0.01em;
-    line-height: 1.1;
+    font-size: 0.95em;
+    color: #b6c2de;
 }
 
-.app-tagline {
-    margin-top: 0.25em;
-    font-size: 1.2em;
-    color: #c0c8de;
+.site-footer {
+    width: 100%;
+    padding: 15px 0;
     text-align: center;
-    font-weight: 400;
-    letter-spacing: 0.02em;
+    background-color: #0f0f1a;
+    font-size: 0.9em;
 }
 
-@media (max-width: 480px) {
-    header h1 {
-        font-size: 1.3em;
-    }
-    .app-tagline {
-        font-size: 1em;
-    }
-}
-
-/* ---- Subpage Lists: Centred Bullets ---- */
-.app-container ul {
-    list-style-position: inside;
-    padding-left: 0;
-    text-align: center;
-    margin: 1.2em 0 1.2em 0;
-}
-
-.app-container ul li {
-    display: list-item;
-    margin: 0.7em 0;
-    text-align: center;
-}
-
-/* ---- Accessible, High-Contrast Links ---- */
-.app-container a,
 .site-footer a {
-    color: #ffc300; /* Gold-yellow, strong contrast on navy */
-    font-weight: 600;
-    text-decoration: underline;
-    transition: color 0.2s;
+    color: #fca311;
+    text-decoration: none;
+    margin: 0 10px;
 }
 
-.app-container a:focus,
-.app-container a:hover,
-.site-footer a:focus,
 .site-footer a:hover {
-    color: #fff;
-    background: #0f3460;
-    outline: 2px solid #ffc300;
-    border-radius: 4px;
     text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+    .app-container {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .question-text {
+        font-size: 1.4em;
+    }
+
+    .options-container {
+        flex-direction: column;
+    }
+
+    .option-btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .or-divider {
+        margin: 5px 0;
+    }
+
+    .controls-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .control-btn {
+        width: 80%;
+        margin: 5px auto;
+    }
+}
+
+#timer-container {
+  text-align: center;
+  margin: 10px 0;
+}
+
+#timer-display {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff6b6b;
+  margin-bottom: 5px;
+}
+
+#timer-bar {
+  width: 100%;
+  height: 4px;
+  background-color: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+#timer-bar::before {
+  content: '';
+  display: block;
+  height: 100%;
+  background-color: #ff6b6b;
+  width: 100%;
+  transition: width 0.1s linear;
 }

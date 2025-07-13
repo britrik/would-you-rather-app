@@ -144,10 +144,12 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsContainer.classList.add('hidden');
         nextBtn.disabled = true;
         shareBtn.disabled = false;
+        startDecisionTimer();
     }
     
     // Handle user's choice
     function handleOptionClick() {
+        stopTimer();
         // Generate a random vote split
         const percentA = Math.floor(Math.random() * 81) + 10; // Random number between 10 and 90
         const percentB = 100 - percentA;
@@ -191,3 +193,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial Load
     loadQuestions();
 });
+
+let timerInterval;
+let timeLeft = 10;
+
+function startDecisionTimer() {
+  // Reset timer
+  timeLeft = 10;
+  document.getElementById('timer-display').textContent = timeLeft;
+  document.getElementById('timer-container').style.display = 'block';
+
+  // Start countdown
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timer-display').textContent = timeLeft;
+
+    // Update progress bar
+    const percentage = (timeLeft / 10) * 100;
+    document.querySelector('#timer-bar').style.setProperty('--progress', percentage + '%');
+
+    // Timer finished
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      document.getElementById('timer-display').textContent = "Time's up!";
+      // Hide timer after 2 seconds
+      setTimeout(() => {
+        document.getElementById('timer-container').style.display = 'none';
+      }, 2000);
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  document.getElementById('timer-container').style.display = 'none';
+}
