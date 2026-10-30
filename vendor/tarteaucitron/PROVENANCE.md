@@ -14,7 +14,7 @@
 | `tarteaucitron.services.js` | Built-in service definitions (we use `adsenseauto`). |
 | `css/tarteaucitron.css` | Default banner/panel styling (auto-injected by the core). |
 | `lang/tarteaucitron.en.js` | English strings. Only `en` is vendored — `window.tarteaucitronForceLanguage` is pinned to `en` in every page. |
-| `advertising.js` | Tiny anti-adblock helper flag loaded by the core when it opens the banner. |
+| `advertising.js` | Tiny anti-adblock helper flag loaded unconditionally by the core during init (48 bytes; same-origin). |
 
 ## Upgrading
 
