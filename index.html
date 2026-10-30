@@ -1,8 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-consent-ads>
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1528631369245825"
-        crossorigin="anonymous"></script>
+    <!-- Google Consent Mode v2: deny ad signals by default, before any Google/AdSense script.
+         tarteaucitron (below) re-applies the same defaults and pushes `consent update`
+         when the visitor accepts/denies the adsense service. -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied',
+            'analytics_storage': 'denied',
+            'wait_for_update': 800
+        });
+        window.tarteaucitronForceLanguage = 'en';
+    </script>
+    <!-- Self-hosted consent manager (vendor/tarteaucitron/, MIT). It loads AdSense
+         (adsenseauto service) only after the visitor opts in. -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Would You Rather? | VibingFun</title>
@@ -10,6 +26,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="vendor/tarteaucitron/tarteaucitron.js" defer></script>
+    <script src="consent-init.js" defer></script>
 </head>
 <body>
 
@@ -22,7 +40,7 @@
             <h1>Decide Faster, Procrastinate Less!</h1>
             <div class="app-tagline">Your Daily Decision Workout</div>
         </header>
-        
+
         <main id="game-area">
             <div id="question-container" aria-live="polite">
                 <p class="question-text" id="question-text">Loading question...</p>
@@ -46,7 +64,7 @@
             <div id="results-container" class="results-container hidden" aria-live="polite">
                 <p id="results-text"></p>
             </div>
-            
+
             <div id="controls-container" class="controls-container">
                 <button id="next-btn" class="control-btn" disabled>Next Question</button>
                 <button id="share-btn" class="control-btn">Share This Question</button>

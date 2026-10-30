@@ -1,18 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google Consent Mode v2: deny ad signals by default, before any Google/AdSense script.
+         tarteaucitron (below) re-applies the same defaults and pushes `consent update`
+         when the visitor accepts/denies the adsense service. -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied',
+            'analytics_storage': 'denied',
+            'wait_for_update': 800
+        });
+        window.tarteaucitronForceLanguage = 'en';
+    </script>
+    <!-- Self-hosted consent manager (vendor/tarteaucitron/, MIT). It loads AdSense
+         (adsenseauto service) only after the visitor opts in. -->
+
     <meta charset="UTF-8">
     <title>Privacy Policy | VibingFun</title>
     <link rel="stylesheet" href="style.css">
+    <script src="vendor/tarteaucitron/tarteaucitron.js" defer></script>
+    <script src="consent-init.js" defer></script>
 </head>
 <body>
     <div class="app-container">
         <h2>Privacy Policy</h2>
         <p>
-            VibingFun does not collect any personally identifiable information from users. No registration is required to use the app. Third-party advertising partners, such as Google AdSense, may use cookies to serve ads and measure site traffic in accordance with their privacy policies.
+            VibingFun does not collect any personally identifiable information from users. No registration is required to use the app.
         </p>
         <p>
-            By using this site, you agree to our use of cookies for ad personalisation and analytics. For more details on how Google uses your data, please visit <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google’s ad policy</a>.
+            We use the self-hosted open-source tool <a href="https://github.com/AmauriC/tarteaucitron.js" target="_blank" rel="noopener">tarteaucitron.js</a> to show a consent banner with a separate opt-in toggle for each service — currently Google AdSense (advertising). No advertising script runs until you allow it — the only thing set beforehand is this tool's own first-party preference cookie (named <code>tarteaucitron</code>, holding your not-yet-made choice), which never leaves your browser. You can change or withdraw your choice at any time via the cookie icon or by opening <a href="#tarteaucitron">your cookie settings</a>. Your choice is stored locally in a preference cookie named <code>tarteaucitron</code>; no consent data is sent to us. Google AdSense, when allowed, may use cookies to serve ads, in accordance with <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google’s ad policy</a>.
         </p>
         <p>
             For any privacy-related questions, contact us via the email or GitHub link on the home page.
