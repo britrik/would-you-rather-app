@@ -13,10 +13,16 @@ This short checklist is for maintaining AdSense, privacy, and web quality compli
 - [ ] Footer link: “AdSense Program Policies” → https://support.google.com/adsense/answer/48182
 
 ## 2. Consent and Privacy
-- [ ] Cookie/consent notice for EEA & UK (IAB CMP if adding analytics or ad personalisation).
-- [ ] Privacy Policy states:
+- [x] Consent banner in place: self-hosted **tarteaucitron.js** (MIT, vendored in `vendor/tarteaucitron/`, pinned v1.37.0).
+    - Per-service opt-in (high privacy: no implicit consent); denying is as easy as accepting.
+    - Google **Consent Mode v2**: `ad_storage`, `ad_user_data`, `ad_personalization` (and `analytics_storage`) default to **denied** in every page `<head>` before any Google script; they flip to granted only when the visitor allows the AdSense service.
+    - AdSense (`adsbygoogle.js?client=ca-pub-…`) is injected by tarteaucitron **only after opt-in** — no unconditional ad script in any `<head>`.
+    - Visitor choice is stored in the `tarteaucitron` cookie; reopen the panel anytime via the cookie icon or `#tarteaucitron`.
+- [ ] If adding analytics or more ad tech later, add them as tarteaucitron services (never as raw `<script>` tags).
+- [x] Privacy Policy states:
     - No personal data is collected or sold.
-    - Google AdSense may use cookies (see their policy).
+    - Cookies are set only after explicit per-service consent (naming tarteaucitron.js and the `tarteaucitron` preference cookie).
+    - Google AdSense may use cookies when allowed (see their policy).
     - Only anonymous, aggregate data (like votes) is used, if at all.
 
 ## 3. Topics API & Ad Layout

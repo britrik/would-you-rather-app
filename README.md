@@ -24,7 +24,7 @@ VibingFun is a mobile-first, ad-supported web app designed to help you break the
 ## Compliance & Governance
 
 - “For entertainment purposes only – no advice” disclaimer shown throughout
-- Cookie/ad consent banners shown for EEA/UK
+- Cookie/ad consent via self-hosted [tarteaucitron.js](vendor/tarteaucitron/) (per-service opt-in, Google Consent Mode v2 — shown to all visitors)
 - All content and code © Britrik (see [`CONTENT_LICENSE.md`](CONTENT_LICENSE.md))
 - AdSense-compliant: ≤3 ad units per view, required legal and info pages
 - Please see [`ADSENSE-COMPLIANCE.md`](ADSENSE-COMPLIANCE.md) for ongoing policy checklist
