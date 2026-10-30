@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-consent-ads>
 <head>
     <!-- Google Consent Mode v2: deny ad signals by default, before any Google/AdSense script.
          tarteaucitron (below) re-applies the same defaults and pushes `consent update`
@@ -18,49 +18,7 @@
     </script>
     <!-- Self-hosted consent manager (vendor/tarteaucitron/, MIT). It loads AdSense
          (adsenseauto service) only after the visitor opts in. -->
-    <script src="vendor/tarteaucitron/tarteaucitron.js"></script>
-    <script>
-        // Mirror tarteaucitron's adsense decision into Google Consent Mode v2.
-        // adsenseauto_allowed fires only on the accept CLICK; adsenseauto_loaded
-        // fires when the service actually loads — including return visits where
-        // a stored grant authorizes it without any click. Listening to both is
-        // what makes the granted update reach Consent Mode on every page view.
-        document.addEventListener('adsenseauto_allowed', function () {
-            window.tac_gtag('consent', 'update', {
-                ad_storage: 'granted',
-                ad_user_data: 'granted',
-                ad_personalization: 'granted'
-            });
-        });
-        document.addEventListener('adsenseauto_loaded', function () {
-            window.tac_gtag('consent', 'update', {
-                ad_storage: 'granted',
-                ad_user_data: 'granted',
-                ad_personalization: 'granted'
-            });
-        });
-        document.addEventListener('adsenseauto_disallowed', function () {
-            window.tac_gtag('consent', 'update', {
-                ad_storage: 'denied',
-                ad_user_data: 'denied',
-                ad_personalization: 'denied'
-            });
-        });
-
-        tarteaucitron.user.adsensecapub = 'ca-pub-1528631369245825';
-        tarteaucitron.init({
-            "privacyUrl": "privacy.html",
-            "hashtag": "#tarteaucitron",
-            "cookieName": "tarteaucitron",
-            "highPrivacy": true,
-            "orientation": "bottom",
-            "DenyAllCta": true,
-            "AcceptAllCta": true,
-            "showIcon": true,
-            "googleConsentMode": true
-        });
-        (tarteaucitron.job = tarteaucitron.job || []).push('adsenseauto');
-    </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Would You Rather? | VibingFun</title>
@@ -68,7 +26,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-</head>
+<script src="vendor/tarteaucitron/tarteaucitron.js" defer></script>
+    <script src="consent-init.js" defer></script>
+    </head>
 <body>
 
     <div class="ad-banner top-ad">
